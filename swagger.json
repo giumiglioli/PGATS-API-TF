@@ -1,0 +1,153 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Receitas e Listas de Compras",
+    "version": "1.0.0",
+    "description": "API para registro, login, administração de receitas e geração de listas de compras."
+  },
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "summary": "Registrar novo usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuário registrado" },
+          "409": { "description": "Usuário já registrado" }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "summary": "Login de usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login bem-sucedido" },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
+    "/api/recipes": {
+      "get": {
+        "summary": "Listar todas as receitas",
+        "responses": { "200": { "description": "Lista de receitas" } }
+      },
+      "post": {
+        "summary": "Criar receita (autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "ingredients": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["name", "ingredients"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Receita criada" } }
+      }
+    },
+    "/api/recipes/{id}": {
+      "get": {
+        "summary": "Obter receita por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Receita" }, "404": { "description": "Não encontrada" } }
+      },
+      "put": {
+        "summary": "Editar receita (autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "ingredients": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Receita editada" }, "403": { "description": "Apenas o dono pode editar" } }
+      },
+      "delete": {
+        "summary": "Remover receita (autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "204": { "description": "Removida" }, "403": { "description": "Apenas o dono pode deletar" } }
+      }
+    },
+    "/api/recipes/{id}/ingredients": {
+      "get": {
+        "summary": "Listar ingredientes de uma receita",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Lista de ingredientes" }, "404": { "description": "Não encontrada" } }
+      }
+    },
+    "/api/shopping-lists": {
+      "post": {
+        "summary": "Gerar lista de compras (autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "recipeIds": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["recipeIds"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Lista de compras gerada" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
