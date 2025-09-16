@@ -70,9 +70,10 @@
                 "type": "object",
                 "properties": {
                   "name": { "type": "string" },
-                  "ingredients": { "type": "array", "items": { "type": "string" } }
+                  "ingredients": { "type": "array", "items": { "type": "string" } },
+                  "preparation": { "type": "string" }
                 },
-                "required": ["name", "ingredients"]
+                "required": ["name", "ingredients", "preparation"]
               }
             }
           }
@@ -98,7 +99,8 @@
                 "type": "object",
                 "properties": {
                   "name": { "type": "string" },
-                  "ingredients": { "type": "array", "items": { "type": "string" } }
+                  "ingredients": { "type": "array", "items": { "type": "string" } },
+                  "preparation": { "type": "string" }
                 }
               }
             }
