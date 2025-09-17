@@ -7,11 +7,18 @@ function register(req, res) {
   if (!username || !password) {
     return res.status(400).json({ message: 'Usuário e senha são obrigatórios.' });
   }
-  const { error } = userService.register({ username, password });
-  if (error) {
-    return res.status(409).json({ message: error });
+  try {
+    const { error } = userService.register({ username, password });
+    if (error) {
+      return res.status(409).json({ message: error });
+    }
+    res.status(201).json({ message: 'Usuário registrado com sucesso.' });
+  } catch (err) {
+    if (err.message === 'Usuário já registrado.') {
+      return res.status(409).json({ message: err.message });
+    }
+    res.status(500).json({ message: err.message });
   }
-  res.status(201).json({ message: 'Usuário registrado com sucesso.' });
 }
 
 function login(req, res) {
