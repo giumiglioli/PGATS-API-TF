@@ -5,10 +5,16 @@
     "version": "1.0.0",
     "description": "API para registro, login, administração de receitas e geração de listas de compras."
   },
+  "tags": [
+    { "name": "user", "description": "Operações de usuário" },
+    { "name": "recipe", "description": "Operações de receitas" },
+    { "name": "shopping-list", "description": "Operações de listas de compras" }
+  ],
   "paths": {
     "/api/users/register": {
       "post": {
         "summary": "Registrar novo usuário",
+        "tags": ["user"],
         "requestBody": {
           "required": true,
           "content": {
@@ -33,6 +39,7 @@
     "/api/users/login": {
       "post": {
         "summary": "Login de usuário",
+        "tags": ["user"],
         "requestBody": {
           "required": true,
           "content": {
@@ -57,10 +64,12 @@
     "/api/recipes": {
       "get": {
         "summary": "Listar todas as receitas",
+        "tags": ["recipe"],
         "responses": { "200": { "description": "Lista de receitas" } }
       },
       "post": {
         "summary": "Criar receita (autenticado)",
+        "tags": ["recipe"],
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
@@ -84,11 +93,13 @@
     "/api/recipes/{id}": {
       "get": {
         "summary": "Obter receita por ID",
+        "tags": ["recipe"],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "responses": { "200": { "description": "Receita" }, "404": { "description": "Não encontrada" } }
       },
       "put": {
         "summary": "Editar receita (autenticado)",
+        "tags": ["recipe"],
         "security": [{ "bearerAuth": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "requestBody": {
@@ -110,6 +121,7 @@
       },
       "delete": {
         "summary": "Remover receita (autenticado)",
+        "tags": ["recipe"],
         "security": [{ "bearerAuth": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "responses": { "204": { "description": "Removida" }, "403": { "description": "Apenas o dono pode deletar" } }
@@ -118,6 +130,7 @@
     "/api/recipes/{id}/ingredients": {
       "get": {
         "summary": "Listar ingredientes de uma receita",
+        "tags": ["recipe"],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "responses": { "200": { "description": "Lista de ingredientes" }, "404": { "description": "Não encontrada" } }
       }
@@ -125,6 +138,7 @@
     "/api/shopping-lists": {
       "post": {
         "summary": "Gerar lista de compras (autenticado)",
+        "tags": ["shopping-list"],
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
