@@ -37,6 +37,6 @@ describe('User Controller', () => {
     describe('POST /api/users/login', () => {
         //its para testes de login
     });
-}); //describe 'User Controller
+}); //describe 'User Controller'
 
 //Fim do arquivo
