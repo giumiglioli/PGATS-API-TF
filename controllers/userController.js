@@ -26,11 +26,18 @@ function login(req, res) {
   if (!username || !password) {
     return res.status(400).json({ message: 'Usuário e senha são obrigatórios.' });
   }
-  const { user, error } = userService.authenticate({ username, password });
-  if (error) {
-    return res.status(401).json({ message: error });
+  try {
+    const { user, error } = userService.authenticate({ username, password });
+    if (error) {
+      return res.status(401).json({ message: error });
+    }
+    res.json({ token: user.token });
+  } catch (err) {
+    if (err.message === 'Credenciais inválidas.') {
+      return res.status(401).json({ message: err.message });
+    }
+    res.status(500).json({ message: err.message });
   }
-  res.json({ token: user.token });
 }
 
 module.exports = { register, login };
