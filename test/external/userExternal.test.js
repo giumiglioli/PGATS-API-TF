@@ -2,9 +2,14 @@
 const request = require('supertest');
 const {expect} = require('chai');
 
-//Testes do controller de usuário - sem uso do sinon/ essa rota não tem autenticação.
-//1 - registro de novo usuário
-//2 - registro de usuário já existente (Mock/ sem o mock está comentado)
+//REGISTER
+//1 - registro de novo usuário 201
+//2 - registro de usuário já existente - 409
+//3 - registro de usuário com dados incompletos/sem dados - 400
+//LOGIN
+//4 - login com dados corretos - 200
+//5 - login com dados incorretos - 401
+//6 - login com dados incompletos/sem dados - 400
 describe('User External', () => {
     describe('POST /api/users/register', () => {
         it('Quando preencho os dados de um novo usuário, registro ele e tenho 201 ', async () => {
@@ -43,9 +48,45 @@ describe('User External', () => {
     }); //it 
     });//describe 'POST /api/users/register
 
+    //Testes de login
     describe('POST /api/users/login', () => {
-        //its para testes de login
-    });
+        it('Quando faço login com os dados corretos, recebo 200 e o token', async() => {
+            const resposta = await request('http://localhost:3000')
+            .post('/api/users/login')
+            .send({
+            username: 'Giuliana',
+            password: 'qwerty123'
+        }); //send
+    expect(resposta.status).to.equal(200);
+    expect(resposta.body).to.have.property('username', 'Giuliana'); //verifica se o username do body do response é igual a Giuliana
+    expect(resposta.body).to.have.property('token'); //verifica se tem a propriedade token no body do response
+    console.log(resposta.body);
+        }); //it
+
+        it('Quando faço login com os dados incorretos, recebo 401', async () => {
+            const resposta = await request('http://localhost:3000')
+            .post('/api/users/login')
+            .send({
+            username: 'Miglioli',
+            password: 'lalalala'
+        }); //send
+    expect(resposta.status).to.equal(401);
+    expect(resposta.body).to.have.property('message', 'Credenciais inválidas.');
+
+        }); //it
+        
+        it('Quando faço login com os dados incompletos/sem dados, recebo 400 ', async () => {
+            const resposta = await request('http://localhost:3000')
+            .post('/api/users/login')
+            .send({
+            username: '',
+            password: ''
+        }); //send
+    expect(resposta.status).to.equal(400);
+    expect(resposta.body).to.have.property('message', 'Usuário e senha são obrigatórios.');
+
+        }); //it
+    });    
 }); //describe 'User Controller'
 
 //Fim do arquivo

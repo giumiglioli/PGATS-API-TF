@@ -31,7 +31,7 @@ function login(req, res) {
     if (error) {
       return res.status(401).json({ message: error });
     }
-    res.json({ token: user.token });
+    res.json({ username: user.username, token: user.token });
   } catch (err) {
     if (err.message === 'Credenciais inválidas.') {
       return res.status(401).json({ message: err.message });
