@@ -1,6 +1,8 @@
 const { users } = require('../models/userModel');
 const crypto = require('crypto');
 const userService = require('../services/userService');
+const jwt = require('jsonwebtoken');
+const SECRET = process.env.JWT_SECRET || 'segredo_super_secreto';
 
 function register(req, res) {
   const { username, lastname, password } = req.body;
@@ -31,7 +33,9 @@ function login(req, res) {
     if (error) {
       return res.status(401).json({ message: error });
     }
-    res.json({ username: user.username, lastname: user.lastname, token: user.token });
+    // Gera JWT
+    const token = jwt.sign({ id: user.id, username: user.username }, SECRET, { expiresIn: '1d' });
+    res.json({ username: user.username, lastname: user.lastname, token });
   } catch (err) {
     if (err.message === 'Credenciais inválidas.') {
       return res.status(401).json({ message: err.message });

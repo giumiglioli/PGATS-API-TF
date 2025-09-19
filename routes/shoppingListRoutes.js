@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const shoppingListController = require('../controllers/shoppingListController');
-const authMiddleware = require('../services/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/', authMiddleware, shoppingListController.generateList); // autenticado
 
