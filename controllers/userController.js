@@ -44,4 +44,18 @@ function login(req, res) {
   }
 }
 
-module.exports = { register, login };
+function listUsers(req, res) {
+  try {
+    const { users } = require('../models/userModel');
+    // Não retornar senha!
+    if (!users || users.length === 0) {
+      return res.json([]);
+    }
+    const safeUsers = users.map(u => ({ id: u.id, username: u.username, lastname: u.lastname }));
+    res.json(safeUsers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+module.exports = { register, login, listUsers };

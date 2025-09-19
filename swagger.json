@@ -76,6 +76,32 @@
         }
       }
     },
+    "/api/users/list": {
+      "get": {
+        "summary": "Listar todos os usuários, retorna vazio se não tiver usuários cadastrados",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "Lista de usuários (sem senha)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "username": { "type": "string" },
+                      "lastname": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/recipes": {
       "get": {
         "summary": "Listar todas as receitas",
