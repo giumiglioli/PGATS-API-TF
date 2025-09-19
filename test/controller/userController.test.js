@@ -107,9 +107,18 @@ describe('User Controller', () => {
             password: 'qwerty123'
         }); //send
     expect(resposta.status).to.equal(200);
+
+    //Resposta usando fixture
+    const respostaEsperada = require('../fixture/respostaLogin/quandoFacoLoginComDadosCorretos_200.json');
+    delete resposta.body.token; //removo o token, que é dinâmico
+    delete respostaEsperada.token; //removo o token, que é dinâmico
+    expect(resposta.body).to.deep.equal(respostaEsperada);
+
+/*  Resposta anterior sem o fixture
     expect(resposta.body).to.have.property('username', 'Giuliana'); //verifica se o username do body do response é igual a Giuliana
+    expect(resposta.body).to.have.property('lastname', 'Miglioli'); //verifica se o lastname do body do response é igual a Miglioli 
     expect(resposta.body).to.have.property('token'); //verifica se tem a propriedade token no body do response
-    //console.log(resposta.body);
+    console.log(resposta.body); */
         }); //it
 
         it('Quando faço login com os dados incorretos, recebo 401', async () => {
