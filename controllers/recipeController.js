@@ -14,19 +14,18 @@ function getRecipeById(req, res) {
 function getIngredients(req, res) {
   const recipe = recipeService.getById(req.params.id);
   if (!recipe) return res.status(404).json({ message: 'Receita não encontrada.' });
-  res.json(recipe.ingredients || []);
+  res.json(recipe.ingredientes || []);
 }
 
 function createRecipe(req, res) {
-  const { name, ingredients, preparation } = req.body;
-  if (!name || !Array.isArray(ingredients) || !preparation) {
-    return res.status(400).json({ message: 'Nome, ingredientes e modo de preparo são obrigatórios.' });
+  const { nome, ingredientes, Preparo } = req.body;
+  if (!nome || !Array.isArray(ingredientes) || !Preparo) {
+    return res.status(400).json({ message: 'Nome, ingredientes e Preparo são obrigatórios.' });
   }
   const recipe = {
-    id: crypto.randomUUID(),
-    name,
-    ingredients,
-    preparation,
+    nome,
+    ingredientes,
+    Preparo,
     userId: req.user.id
   };
   recipeService.create(recipe);
@@ -37,11 +36,11 @@ function updateRecipe(req, res) {
   const recipe = recipeService.getById(req.params.id);
   if (!recipe) return res.status(404).json({ message: 'Receita não encontrada.' });
   if (recipe.userId !== req.user.id) return res.status(403).json({ message: 'Apenas o dono pode editar.' });
-  const { name, ingredients, preparation } = req.body;
+  const { nome, ingredientes, Preparo } = req.body;
   const updatedRecipe = {};
-  if (name) updatedRecipe.name = name;
-  if (Array.isArray(ingredients)) updatedRecipe.ingredients = ingredients;
-  if (preparation) updatedRecipe.preparation = preparation;
+  if (nome) updatedRecipe.nome = nome;
+  if (Array.isArray(ingredientes)) updatedRecipe.ingredientes = ingredientes;
+  if (Preparo) updatedRecipe.Preparo = Preparo;
   const result = recipeService.update(req.params.id, updatedRecipe);
   res.json(result);
 }

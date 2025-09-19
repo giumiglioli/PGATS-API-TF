@@ -64,7 +64,7 @@ describe('User External', () => {
     expect(resposta.body).to.have.property('username', 'Giuliana'); //verifica se o username do body do response é igual a Giuliana
     expect(resposta.body).to.have.property('lastname', 'Miglioli'); //verifica se o lastname do body do response é igual a Miglioli
     expect(resposta.body).to.have.property('token'); //verifica se tem a propriedade token no body do response
-    console.log(resposta.body);
+    //console.log(resposta.body);
         }); //it
 
         it('Quando faço login com os dados incorretos, recebo 401', async () => {

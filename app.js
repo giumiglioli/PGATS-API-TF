@@ -11,6 +11,14 @@ const app = express();
 
 app.use(bodyParser.json());
 
+// Middleware para erro de JSON inválido
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ message: 'JSON malformado no corpo da requisição.' });
+  }
+  next(err);
+});
+
 // Rotas principais
 app.use('/api/users', userRoutes);
 app.use('/api/recipes', recipeRoutes);

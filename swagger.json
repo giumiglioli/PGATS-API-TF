@@ -119,11 +119,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "ingredients": { "type": "array", "items": { "type": "string" } },
-                  "preparation": { "type": "string" }
+                  "nome": { "type": "string" },
+                  "ingredientes": { "type": "array", "items": { "type": "string" } },
+                  "Preparo": { "type": "string" }
                 },
-                "required": ["name", "ingredients", "preparation"]
+                "required": ["nome", "ingredientes", "Preparo"]
               }
             }
           }
@@ -150,9 +150,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "ingredients": { "type": "array", "items": { "type": "string" } },
-                  "preparation": { "type": "string" }
+                  "nome": { "type": "string" },
+                  "ingredientes": { "type": "array", "items": { "type": "string" } },
+                  "Preparo": { "type": "string" }
                 }
               }
             }

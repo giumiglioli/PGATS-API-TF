@@ -1,5 +1,6 @@
 const { users } = require('../models/userModel');
 const crypto = require('crypto');
+let nextId = 1; // id incremental
 
 const userService = {
   findByUsername: (username) => users.find(u => u.username === username),
@@ -9,7 +10,7 @@ const userService = {
       return { error: 'Usuário já registrado.' };
     }
     const user = {
-      id: crypto.randomUUID(),
+      id: nextId++, // id incremental
       username,
       lastname,
       password, // Em produção, use hash!

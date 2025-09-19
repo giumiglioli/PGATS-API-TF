@@ -1,9 +1,12 @@
 const { recipes } = require('../models/recipeModel');
 
+let nextRecipeId = 1; // id incremental para receitas
+
 const recipeService = {
   getAll: () => recipes,
-  getById: (id) => recipes.find(r => r.id === id),
+  getById: (id) => recipes.find(r => r.id === Number(id)),
   create: (recipe) => {
+    recipe.id = nextRecipeId++; // atribui id incremental
     recipes.push(recipe);
     return recipe;
   },
