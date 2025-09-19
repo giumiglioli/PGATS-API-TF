@@ -3,12 +3,12 @@ const crypto = require('crypto');
 const userService = require('../services/userService');
 
 function register(req, res) {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Usuário e senha são obrigatórios.' });
+  const { username, lastname, password } = req.body;
+  if (!username || !lastname || !password) {
+    return res.status(400).json({ message: 'Usuário, sobrenome e senha são obrigatórios.' });
   }
   try {
-    const { error } = userService.register({ username, password });
+    const { error } = userService.register({ username, lastname, password });
     if (error) {
       return res.status(409).json({ message: error });
     }
@@ -31,7 +31,7 @@ function login(req, res) {
     if (error) {
       return res.status(401).json({ message: error });
     }
-    res.json({ username: user.username, token: user.token });
+    res.json({ username: user.username, lastname: user.lastname, token: user.token });
   } catch (err) {
     if (err.message === 'Credenciais inválidas.') {
       return res.status(401).json({ message: err.message });

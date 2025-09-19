@@ -23,9 +23,10 @@
                 "type": "object",
                 "properties": {
                   "username": { "type": "string" },
+                  "lastname": { "type": "string" },
                   "password": { "type": "string" }
                 },
-                "required": ["username", "password"]
+                "required": ["username", "lastname", "password"]
               }
             }
           }
@@ -56,7 +57,21 @@
           }
         },
         "responses": {
-          "200": { "description": "Login bem-sucedido" },
+          "200": {
+            "description": "Login bem-sucedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" },
+                    "lastname": { "type": "string" },
+                    "token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
           "401": { "description": "Credenciais inválidas" }
         }
       }

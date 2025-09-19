@@ -4,13 +4,14 @@ const crypto = require('crypto');
 const userService = {
   findByUsername: (username) => users.find(u => u.username === username),
   findByToken: (token) => users.find(u => u.token === token),
-  register: ({ username, password }) => {
+  register: ({ username, lastname, password }) => {
     if (userService.findByUsername(username)) {
       return { error: 'Usuário já registrado.' };
     }
     const user = {
       id: crypto.randomUUID(),
       username,
+      lastname,
       password, // Em produção, use hash!
     };
     users.push(user);

@@ -25,6 +25,7 @@ describe('User Controller', () => {
                 .post('/api/users/register')
                 .send({
                 username: 'Giuliana',
+                lastname: 'Miglioli',
                 password: 'qwerty123'
             }); //send
         expect(resposta.status).to.equal(201);
@@ -39,6 +40,7 @@ describe('User Controller', () => {
                 .post('/api/users/register')
                 .send({
                 username: 'Giuliana',
+                lastname: 'Miglioli',
                 password: 'blablabla'
             }); //send
         expect(resposta.status).to.equal(409);
@@ -54,6 +56,7 @@ describe('User Controller', () => {
                 .post('/api/users/register')
                 .send({
                 username: 'Giuliana',
+                lastname: 'Miglioli',
                 password: 'blablabla'
             }); //send
         expect(resposta.status).to.equal(409);
@@ -64,30 +67,32 @@ describe('User Controller', () => {
     it('Usando Mock: Quando tento registrar um usuário sem fornecer os dados, recebo 400', async () => {
         //Mockando a função register do userService
         const userServiceMock = sinon.stub(userService, 'register');
-            userServiceMock.throws(new Error('Usuário e senha são obrigatórios.'));
+            userServiceMock.throws(new Error('Usuário, sobrenome e senha são obrigatórios.'));
         const resposta = await request(app)
             .post('/api/users/register')
             .send({
             username: '',
+            lastname: '',
             password: ''
         }); //send
     expect(resposta.status).to.equal(400);
-    expect(resposta.body).to.have.property('message', 'Usuário e senha são obrigatórios.');
+    expect(resposta.body).to.have.property('message', 'Usuário, sobrenome e senha são obrigatórios.');
 
     //Reseto o Mock
     sinon.restore();
     }); //it
 
-/* Mesmo teste usando mock. */
+
     it('Quando tento registrar um usuário sem fornecer os dados, recebo 400', async () => {
         const resposta = await request(app)
             .post('/api/users/register')
             .send({
             username: '',
+            lastname: '',
             password: ''
         }); //send
     expect(resposta.status).to.equal(400);
-    expect(resposta.body).to.have.property('message', 'Usuário e senha são obrigatórios.');
+    expect(resposta.body).to.have.property('message', 'Usuário, sobrenome e senha são obrigatórios.');
     }); //it 
     });//describe 'POST /api/users/register
 

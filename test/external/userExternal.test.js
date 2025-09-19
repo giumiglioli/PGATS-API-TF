@@ -17,6 +17,7 @@ describe('User External', () => {
                 .post('/api/users/register')
                 .send({
                 username: 'Giuliana',
+                lastname: 'Miglioli',
                 password: 'qwerty123'
             }); //send
         expect(resposta.status).to.equal(201);
@@ -29,6 +30,7 @@ describe('User External', () => {
                 .post('/api/users/register')
                 .send({
                 username: 'Giuliana',
+                lastname: 'Miglioli',
                 password: 'blablabla'
             }); //send
         expect(resposta.status).to.equal(409);
@@ -41,10 +43,11 @@ describe('User External', () => {
             .post('/api/users/register')
             .send({
             username: '',
+            lastname: '',
             password: ''
         }); //send
     expect(resposta.status).to.equal(400);
-    expect(resposta.body).to.have.property('message', 'Usuário e senha são obrigatórios.');
+    expect(resposta.body).to.have.property('message', 'Usuário, sobrenome e senha são obrigatórios.');
     }); //it 
     });//describe 'POST /api/users/register
 
@@ -59,6 +62,7 @@ describe('User External', () => {
         }); //send
     expect(resposta.status).to.equal(200);
     expect(resposta.body).to.have.property('username', 'Giuliana'); //verifica se o username do body do response é igual a Giuliana
+    expect(resposta.body).to.have.property('lastname', 'Miglioli'); //verifica se o lastname do body do response é igual a Miglioli
     expect(resposta.body).to.have.property('token'); //verifica se tem a propriedade token no body do response
     console.log(resposta.body);
         }); //it
