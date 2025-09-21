@@ -18,6 +18,8 @@ const userService = require('../../services/userService');
 //4 - login com dados corretos - 200
 //5 - login com dados incorretos - 401
 //6 - login com dados incompletos/sem dados - 400
+
+
 describe('User Controller', () => {
     describe('POST /api/users/register', () => {
         it('Quando preencho os dados de um novo usuário, registro ele e tenho 201 ', async () => {
