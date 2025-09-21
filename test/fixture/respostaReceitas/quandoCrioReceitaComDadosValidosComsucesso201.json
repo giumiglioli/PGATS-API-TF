@@ -1,0 +1,11 @@
+{
+    "nome": "Bolo de cenoura",
+    "ingredientes": ["3 ovos", 
+        "2 xícaras de açúcar", 
+        "2 xícaras de farinha de trigo", 
+        "1 cenoura grande ralada", 
+        "1 colher de sopa de fermento em pó"],
+    "Preparo": "Bata no liquidificador os ovos, o açúcar e a cenoura. Despeje em uma tigela e adicione a farinha e o fermento. Misture bem e leve ao forno preaquecido a 180°C por cerca de 40 minutos.",
+    "userId": 1,
+    "id": 1
+  }
