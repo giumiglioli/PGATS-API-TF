@@ -73,7 +73,7 @@ before(async () => {
 });
 
 //INICIO DOS TESTES
-describe('Receitas Controller', () => {
+describe('Receipt Controller', () => {
     describe('POST /api/recipes', () => {
         it('Quando crio uma nova receita com dados válidos, recebo 201 e o json da receita criada', async () => {            
             const resposta = await request(app)
@@ -120,7 +120,7 @@ describe('Receitas Controller', () => {
                 }); //send
 
             expect(resposta.status).to.equal(201);
-            console.log(resposta.body);
+            //console.log(resposta.body);
             expect(resposta.body).to.have.property('nome', 'Bolo de cenoura mockado');
 
             //Reseto o Mock
@@ -169,7 +169,7 @@ describe('Receitas Controller', () => {
 
 
     }); //fim do describe 'GET /api/recipes
-    //Testes a seguir foram planejados, mas não implementados por enquanto
+
     describe('GET /api/recipes/:id', () => {
         it('Quando busco uma receita que existe, recebo 200 e o json da receita', async () => {}); //it
         it('Quando busco uma receita que não existe, recebo 404', async () => {}); //it

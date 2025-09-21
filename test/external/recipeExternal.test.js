@@ -88,7 +88,7 @@ describe('Receitas External', () => {
 
 
         expect(resposta.body).to.deep.equal(respostaEsperada);
-        console.log(resposta.body);
+        //console.log(resposta.body);
 
         }); //it
 
@@ -97,7 +97,7 @@ describe('Receitas External', () => {
         it('Quando edito uma receita que eu criei, recebo 200 e o json da receita editada', async () => {
 
 
-            
+
 
         }); //it
         it('Quando tento editar uma receita que não existe, recebo 404', async () => {
