@@ -55,6 +55,158 @@ Após o login, utilize o token retornado no header `Authorization` (formato: `Be
 
 Para testar com Supertest, importe o `app.js` diretamente.
 
+## GraphQL API
+
+A API GraphQL está disponível na pasta `graphql/`.
+
+### Como rodar a API GraphQL
+
+1. Instale as dependências necessárias:
+
+   ```sh
+   npm install @apollo/server express@5.1.0 graphql graphql-tag cors jsonwebtoken dotenv body-parser
+   ```
+
+2. Execute o servidor GraphQL:
+
+   ```sh
+   node graphql/server.js
+   ```
+
+3. Acesse o playground em: [http://localhost:4000/graphql](http://localhost:4000/graphql)
+
+### Exemplos de Queries e Mutations
+
+#### Login
+```graphql
+query {
+  login(username: "Giuliana", password: "qwerty123") {
+    username
+    lastname
+    token
+  }
+}
+```
+
+#### Registro de Usuário
+```graphql
+mutation {
+  registerUser(username: "Giuliana", lastname: "Miglioli", password: "qwerty123") {
+    username
+    lastname
+  }
+}
+```
+
+#### Mutation protegida (exemplo)
+```graphql
+mutation {
+  transferSomething(data: "...")
+}
+```
+
+Para mutations protegidas, envie o header:
+
+```
+Authorization: Bearer <token>
+```
+
+> O token é obtido via mutation/login.
+
+## Exemplos de Queries e Mutations para Receitas e Listas de Compras
+
+### Listar todas as receitas
+```graphql
+query {
+  recipes {
+    id
+    nome
+    ingredientes
+    Preparo
+    userId
+  }
+}
+```
+
+### Buscar uma receita por ID
+```graphql
+query {
+  recipe(id: "1") {
+    id
+    nome
+    ingredientes
+    Preparo
+    userId
+  }
+}
+```
+
+### Buscar ingredientes de uma receita
+```graphql
+query {
+  recipeIngredients(id: "1")
+}
+```
+
+### Criar uma nova receita (autenticado)
+```graphql
+mutation {
+  createRecipe(
+    nome: "Bolo de cenoura"
+    ingredientes: ["3 ovos", "2 xícaras de açúcar", "2 xícaras de farinha de trigo", "1 cenoura grande ralada", "1 colher de sopa de fermento em pó"]
+    Preparo: "Bata no liquidificador os ovos, o açúcar e a cenoura. Despeje em uma tigela e adicione a farinha e o fermento. Misture bem e leve ao forno preaquecido a 180°C por cerca de 40 minutos."
+  ) {
+    id
+    nome
+    ingredientes
+    Preparo
+    userId
+  }
+}
+```
+
+### Editar uma receita (autenticado, apenas dono)
+```graphql
+mutation {
+  updateRecipe(
+    id: "1"
+    nome: "Bolo de cenoura atualizado"
+    ingredientes: ["3 ovos", "2 xícaras de açúcar"]
+    Preparo: "Novo modo de preparo."
+  ) {
+    id
+    nome
+    ingredientes
+    Preparo
+    userId
+  }
+}
+```
+
+### Remover uma receita (autenticado, apenas dono)
+```graphql
+mutation {
+  deleteRecipe(id: "1")
+}
+```
+
+### Gerar lista de compras a partir de receitas (autenticado)
+```graphql
+mutation {
+  generateShoppingList(recipeIds: ["1", "2"]) {
+    id
+    userId
+    ingredients
+  }
+}
+```
+
+> Para mutations protegidas, envie o header:
+>
+> ```
+> Authorization: Bearer <token>
+> ```
+
 ---
 
 Para dúvidas, consulte a documentação Swagger ou o código-fonte.

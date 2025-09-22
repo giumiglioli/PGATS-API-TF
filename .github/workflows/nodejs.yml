@@ -26,3 +26,5 @@ jobs:
         run: sleep 5
       - name: Run software test (http)
         run: npm run test-external
+      - name: Run GraphQL tests
+        run: npm run test -- test/external/userExternalGraphQL.test.js
