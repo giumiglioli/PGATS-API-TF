@@ -15,6 +15,7 @@
   "description": "",
   "dependencies": {
     "@apollo/server": "^5.0.0",
+    "@faker-js/faker": "^10.1.0",
     "body-parser": "^2.2.0",
     "chai": "4.5.0",
     "cors": "^2.8.5",
