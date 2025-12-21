@@ -207,6 +207,20 @@ mutation {
 > Authorization: Bearer <token>
 > ```
 
+# Teste de Performance com ferramenta K6
+Esta seção detalha os pilares técnicos utilizados para a construção dos testes de performance neste projeto, utilizando o K6. Essa seção foi criada par avaliação, bem como revisar os conceitos e mostrar onde eles foram aplicados
+
+## Thresholds
+## Checks
+## Helpers
+## Trends
+## Faker
+## Variável de Ambiente
+## Stages
+## Reaproveitamento de Resposta
+## Uso de Token de Autenticação
+## Data-Driven Testing
+## Groups
 ---
 
 Para dúvidas, consulte a documentação Swagger ou o código-fonte.
