@@ -208,7 +208,7 @@ mutation {
 > ```
 
 # Teste de Performance com ferramenta K6
-Esta seção detalha os pilares técnicos utilizados para a construção dos testes de performance neste projeto, utilizando o K6. Essa seção foi criada par avaliação, bem como revisar os conceitos e mostrar onde eles foram aplicados.
+Esta seção detalha os pilares técnicos utilizados para a construção dos testes de performance neste projeto, utilizando o K6. Essa seção foi criada para avaliação, bem como revisar os conceitos e descrever onde eles foram aplicados.
 O Report está anexado nesse repositório com o nome de APIrecipes-report.html
 
 Workflow automatizado:
@@ -282,8 +282,7 @@ group('login', () => {
   const res = login(baseUrl, { username, password });
   loginTrend.add(res.timings.duration);
 });
-...
-    loginTrend.add(res.timings.duration);
+
 ...
 ```
 
@@ -364,7 +363,7 @@ return http.post(url, payload, {
 ```
 
 ## Data-Driven Testing
-Técnica que utiliza fontes de dados externas (JSON, CSV) para alimentar o teste com múltiplos cenários e inputs reais. No código abaixo é usado para gerar a receita a ser cadastrada pelo usuário. De forma geral, o código checa se o dataset é válido e caso positivo ele usa o json criado, caso negativo, ele usa uma função de geração randômica. 
+Técnica que utiliza fontes de dados externas (JSON, CSV) para alimentar o teste com múltiplos cenários e inputs reais. No código abaixo é usado para gerar a receita a ser cadastrada pelo usuário. De forma geral, o código checa se o dataset é válido e caso positivo ele usa o json criado para a criação de receita, caso negativo, ele usa uma função de geração randômica que não usa o data-driven. 
 
 ### Exemplo de código
 ```javascript
