@@ -211,14 +211,45 @@ mutation {
 Esta seção detalha os pilares técnicos utilizados para a construção dos testes de performance neste projeto, utilizando o K6. Essa seção foi criada par avaliação, bem como revisar os conceitos e mostrar onde eles foram aplicados.
 O Report está anexado nesse repositório com o nome de APIrecipes-report.html
 
-O workflow automatizado foi : 
-1 - Criacão (Register) de usuário
-2 - Login do usuário registrado
-3 - Criação de uma receita (somente com o usuário registrado)
+Workflow automatizado:
+1. Criação (Register) de usuário  
+2. Login do usuário registrado  
+3. Criação de uma receita (somente com o usuário registrado)
 
 ## Thresholds
+Definem metas de desempenho; o teste falha se não forem atingidas. No código abaixo, as metas foram estabelecidas para os percentis de 90 e 95
 
-## Checks
+### Exemplo de código
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+export const options = {
+  thresholds: {
+    http_req_duration: ['p(90)<8000', 'p(95)<10000'],
+  },
+  stages: [
+    { duration: '3s', target: 5 },
+    { duration: '15s', target: 10 },
+    { duration: '2s', target: 40 },
+    { duration: '10s', target: 10 },
+    { duration: '3s', target: 0 },
+  ],
+};
+```
+## Checks  
+Valida condições nas respostas HTTP.Asserções booleanas que verificam condições específicas da resposta (status, corpo, headers) sem interromper a execução em caso de falha.
+No código abaixo verifica o status 200, caso o usuário consiga efetuar o login e armazena o token.
+
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+group('login', () => {
+  const res = login(baseUrl, { username, password });
+  check(res, {
+    'login status is 200': (r) => r.status === 200,
+    'login has token': (r) => r.json('token') && typeof r.json('token') === 'string',
+  });
+});
+```
+
 ## Helpers
 ## Trends
 ## Faker
@@ -238,6 +269,7 @@ O código abaixo está armazenado no arquivo test/k6/APIrecipes.test.js e demont
 ```
 group('login', () => {
     const res = login(baseUrl, { username, password });
+    ...
 ```
 ---
 
