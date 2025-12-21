@@ -14,21 +14,21 @@ export const registerTrend = new Trend('register_duration');
 export const createRecipeTrend = new Trend('create_recipe_duration');   
 
 export const options = {
-  vus: 10,
-  duration: '5s',
+ // vus: 10,
+ // duration: '5s',
   thresholds: {
     http_req_duration: [
       'p(90)<8000',
       'p(95)<10000'
     ]
   },
-  /*stages: [
+  stages: [
     { duration: '3s', target: 5 }, //Ramp Up
     { duration: '15s', target: 10 }, //Average
     { duration: '2s', target: 40 }, //Spike
     { duration: '10s', target: 10 }, //Average
     { duration: '3s', target: 0 }, //Ramp Down
-  ], */
+  ], 
 };
 
 export default function () {

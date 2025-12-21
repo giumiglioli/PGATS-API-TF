@@ -208,9 +208,16 @@ mutation {
 > ```
 
 # Teste de Performance com ferramenta K6
-Esta seção detalha os pilares técnicos utilizados para a construção dos testes de performance neste projeto, utilizando o K6. Essa seção foi criada par avaliação, bem como revisar os conceitos e mostrar onde eles foram aplicados
+Esta seção detalha os pilares técnicos utilizados para a construção dos testes de performance neste projeto, utilizando o K6. Essa seção foi criada par avaliação, bem como revisar os conceitos e mostrar onde eles foram aplicados.
+O Report está anexado nesse repositório com o nome de APIrecipes-report.html
+
+O workflow automatizado foi : 
+1 - Criacão (Register) de usuário
+2 - Login do usuário registrado
+3 - Criação de uma receita (somente com o usuário registrado)
 
 ## Thresholds
+
 ## Checks
 ## Helpers
 ## Trends
@@ -220,7 +227,21 @@ Esta seção detalha os pilares técnicos utilizados para a construção dos tes
 ## Reaproveitamento de Resposta
 ## Uso de Token de Autenticação
 ## Data-Driven Testing
+
 ## Groups
+### Conceito
+Organização do script em partes, cada uma cobrindo o uso de um endpoint. Dessa forma permite segmentar as métricas e facilitar a leitura. 
+
+O código abaixo está armazenado no arquivo test/k6/APIrecipes.test.js e demontra o uso do conceito de Groups, onde foi separado cada passo do workflow.  Dentro dele faço uso de um Helper, uma função de login, que foi importada de um outro script javascript.
+
+### Exemplo de código
+```group('login', () => {
+    const res = login(baseUrl, { username, password });
+```
+
+group('Login User', function () {
+    token = login(email, password);
+});
 ---
 
 Para dúvidas, consulte a documentação Swagger ou o código-fonte.
