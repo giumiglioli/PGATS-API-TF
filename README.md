@@ -235,13 +235,10 @@ Organização do script em partes, cada uma cobrindo o uso de um endpoint. Dessa
 O código abaixo está armazenado no arquivo test/k6/APIrecipes.test.js e demontra o uso do conceito de Groups, onde foi separado cada passo do workflow.  Dentro dele faço uso de um Helper, uma função de login, que foi importada de um outro script javascript.
 
 ### Exemplo de código
-```group('login', () => {
+```
+group('login', () => {
     const res = login(baseUrl, { username, password });
 ```
-
-group('Login User', function () {
-    token = login(email, password);
-});
 ---
 
 Para dúvidas, consulte a documentação Swagger ou o código-fonte.
