@@ -3,7 +3,7 @@ import { check, group } from 'k6';
 import { getBaseURL } from './helpers/getBaseURL.js';
 import { register } from './helpers/register.js';
 import { login } from './helpers/login.js';
-import { createRecipe, generateRandomRecipe } from './helpers/createRecipes.js';
+import { createRecipe, generateRandomRecipe,recipesData } from './helpers/createRecipes.js';
 import { generateUniqueUsername } from './helpers/username.js';
 import faker from "k6/x/faker";
 import {Trend } from 'k6/metrics';
@@ -15,7 +15,7 @@ export const createRecipeTrend = new Trend('create_recipe_duration');
 
 export const options = {
   vus: 10,
-  duration: '10s',
+  duration: '5s',
   thresholds: {
     http_req_duration: [
       'p(90)<8000',
@@ -59,6 +59,41 @@ export default function () {
     loginTrend.add(res.timings.duration);
   });
 
+
+// Data-driven: try to create recipes from the dataset. If the dataset is empty it uses the generateRandomRecipe function
+group('createRecipe-data-driven', () => {
+    // Garantir que recipesData é um array antes de usar length
+    const dataset = Array.isArray(recipesData) && recipesData.length > 0
+      ? recipesData
+      : [generateRandomRecipe()];
+
+    for (let i = 0; i < dataset.length; i++) {
+      const recipe = dataset[i];
+
+      // Schema validation before send 
+      const hasPreparo =
+        typeof recipe.Preparo === 'string' || typeof recipe.preparo === 'string';
+
+      const isValid =
+        recipe &&
+        typeof recipe.nome === 'string' &&
+        Array.isArray(recipe.ingredientes) &&
+        hasPreparo;
+
+      if (!isValid) {
+        console.warn(`Skipping invalid recipe at index ${i}`);
+        continue;
+      }
+
+      const res = createRecipe(baseUrl, token, recipe);
+      check(res, {
+        'create recipe status is 201': (r) => r.status === 201,
+      });
+      createRecipeTrend.add(res.timings.duration);
+    }
+  });
+
+  /* Create Recipe without data-driven approach
   group('createRecipe', () => {
     const recipe = generateRandomRecipe();
     const res = createRecipe(baseUrl, token, recipe);
@@ -66,5 +101,5 @@ export default function () {
       'create recipe status is 201': (r) => r.status === 201,
     });
     createRecipeTrend.add(res.timings.duration);
-  });
+  }); */
 }

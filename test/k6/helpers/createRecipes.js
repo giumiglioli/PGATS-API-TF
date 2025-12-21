@@ -1,4 +1,20 @@
 import http from 'k6/http';
+import { SharedArray } from 'k6/data';
+
+// Carrega receitas de um arquivo JSON para data-driven testing
+export const recipesData = new SharedArray('recipes_data', function () {
+  try {
+    const text = open(__ENV.RECIPES_FILE || '../data/recipes.test.data.json');
+    const json = JSON.parse(text);
+    if (!Array.isArray(json)) {
+      throw new Error('recipes.test.data.json must be an array');
+    }
+    return json;
+  } catch (e) {
+    console.error(`Failed to load recipes data: ${e.message}`);
+    return [];
+  }
+});
 
 export function generateRandomRecipe() {
   const adjectives = ['Deliciosa', 'Saborosa', 'Crocrante', 'Apimentada', 'Suave'];

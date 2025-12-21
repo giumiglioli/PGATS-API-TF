@@ -1,0 +1,239 @@
+[
+  {
+    "nome": "Deliciosa Sopa",
+    "ingredientes": [
+      "Carne",
+      "Pimenta",
+      "Cebola",
+      "Carne",
+      "Cebola",
+      "Sal"
+    ],
+    "Preparo": "Pique os ingredientes. Refogue no azeite. Adicione sal e pimenta."
+  },
+  {
+    "nome": "Suave Sopa",
+    "ingredientes": [
+      "Pimenta",
+      "Tomate",
+      "Sal",
+      "Tomate",
+      "Carne",
+      "Pimenta"
+    ],
+    "Preparo": "Cozinhe por 20 minutos. Adicione sal e pimenta. Pique os ingredientes."
+  },
+  {
+    "nome": "Crocrante Sanduíche",
+    "ingredientes": [
+      "Alho",
+      "Alho",
+      "Frango",
+      "Tomate",
+      "Queijo"
+    ],
+    "Preparo": "Refogue no azeite. Pique os ingredientes. Adicione sal e pimenta."
+  },
+  {
+    "nome": "Crocrante Salada",
+    "ingredientes": [
+      "Tomate",
+      "Leite",
+      "Azeite",
+      "Alho"
+    ],
+    "Preparo": "Cozinhe por 20 minutos. Adicione sal e pimenta. Refogue no azeite."
+  },
+  {
+    "nome": "Crocrante Sanduíche",
+    "ingredientes": [
+      "Azeite",
+      "Queijo",
+      "Sal",
+      "Queijo",
+      "Pimenta",
+      "Carne",
+      "Alho"
+    ],
+    "Preparo": "Refogue no azeite. Adicione sal e pimenta. Pique os ingredientes."
+  },
+  {
+    "nome": "Apimentada Torta",
+    "ingredientes": [
+      "Tomate",
+      "Azeite",
+      "Tomate",
+      "Carne",
+      "Cebola",
+      "Azeite",
+      "Carne"
+    ],
+    "Preparo": "Refogue no azeite. Adicione sal e pimenta. Cozinhe por 20 minutos."
+  },
+  {
+    "nome": "Crocrante Salada",
+    "ingredientes": [
+      "Frango",
+      "Tomate",
+      "Pimenta",
+      "Tomate",
+      "Azeite",
+      "Queijo"
+    ],
+    "Preparo": "Refogue no azeite. Adicione sal e pimenta. Cozinhe por 20 minutos."
+  },
+  {
+    "nome": "Saborosa Sanduíche",
+    "ingredientes": [
+      "Tomate",
+      "Sal",
+      "Frango",
+      "Frango"
+    ],
+    "Preparo": "Pique os ingredientes. Adicione sal e pimenta. Refogue no azeite."
+  },
+  {
+    "nome": "Apimentada Torta",
+    "ingredientes": [
+      "Carne",
+      "Queijo",
+      "Alho",
+      "Frango",
+      "Cebola"
+    ],
+    "Preparo": "Pique os ingredientes. Refogue no azeite. Adicione sal e pimenta."
+  },
+  {
+    "nome": "Apimentada Salada",
+    "ingredientes": [
+      "Cebola",
+      "Sal",
+      "Pimenta",
+      "Queijo"
+    ],
+    "Preparo": "Pique os ingredientes. Adicione sal e pimenta. Refogue no azeite."
+  },
+  {
+    "nome": "Crocrante Sanduíche",
+    "ingredientes": [
+      "Cebola",
+      "Pimenta",
+      "Sal",
+      "Cebola",
+      "Frango"
+    ],
+    "Preparo": "Refogue no azeite. Pique os ingredientes. Adicione sal e pimenta."
+  },
+  {
+    "nome": "Saborosa Sanduíche",
+    "ingredientes": [
+      "Carne",
+      "Sal",
+      "Tomate",
+      "Sal",
+      "Azeite",
+      "Tomate"
+    ],
+    "Preparo": "Cozinhe por 20 minutos. Pique os ingredientes. Refogue no azeite."
+  },
+  {
+    "nome": "Saborosa Sanduíche",
+    "ingredientes": [
+      "Azeite",
+      "Pimenta",
+      "Carne",
+      "Alho",
+      "Sal"
+    ],
+    "Preparo": "Refogue no azeite. Adicione sal e pimenta. Pique os ingredientes."
+  },
+  {
+    "nome": "Apimentada Salada",
+    "ingredientes": [
+      "Queijo",
+      "Pimenta",
+      "Leite",
+      "Frango"
+    ],
+    "Preparo": "Cozinhe por 20 minutos. Pique os ingredientes. Refogue no azeite."},
+  {
+    "nome": "Deliciosa Massa",
+    "ingredientes": [
+      "Tomate",
+      "Frango",
+      "Carne",
+      "Pimenta",
+      "Sal"
+    ],
+    "Preparo": "Pique os ingredientes. Adicione sal e pimenta. Refogue no azeite."
+  },
+  {
+    "nome": "Deliciosa Massa",
+    "ingredientes": [
+      "Pimenta",
+      "Frango",
+      "Queijo",
+      "Leite",
+      "Pimenta",
+      "Leite",
+      "Sal"
+    ],
+    "Preparo": "Refogue no azeite. Pique os ingredientes. Cozinhe por 20 minutos."
+  },
+  {
+    "nome": "Crocrante Massa",
+    "ingredientes": [
+      "Sal",
+      "Queijo",
+      "Sal",
+      "Alho"
+    ],
+    "Preparo": "Pique os ingredientes. Refogue no azeite. Adicione sal e pimenta." 
+  },
+  {
+    "nome": "Apimentada Massa",
+    "ingredientes": [
+      "Azeite",
+      "Alho",
+      "Alho",
+      "Pimenta",
+      "Carne",
+      "Sal",
+      "Carne"
+    ],
+    "Preparo": "Refogue no azeite. Pique os ingredientes. Adicione sal e pimenta."
+  },
+  {
+    "nome": "Deliciosa Curry",
+    "ingredientes": [
+      "Pimenta",
+      "Pimenta",
+      "Pimenta",
+      "Queijo"
+    ],
+    "Preparo": "Adicione sal e pimenta. Sirva quente. Refogue no azeite."
+  },
+  {
+    "nome": "Crocrante Sanduíche",
+    "ingredientes": [
+      "Tomate",
+      "Azeite",
+      "Frango",
+      "Pimenta",
+      "Cebola"
+    ],
+    "Preparo": "Refogue no azeite. Adicione sal e pimenta. Pique os ingredientes."
+  },
+  {
+    "nome": "Apimentada Salada",
+    "ingredientes": [
+      "Alho",
+      "Carne",
+      "Azeite",
+      "Leite",
+      "Queijo",
+      "Pimenta"
+    ],
+    "Preparo": "Adicione sal e pimenta. Refogue no azeite. Cozinhe por 20 minutos."
+  }
+]
