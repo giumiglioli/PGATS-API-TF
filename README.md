@@ -216,6 +216,8 @@ Workflow automatizado:
 2. Login do usuário registrado  
 3. Criação de uma receita (somente com o usuário registrado)
 
+A seguir cada conceito será explicado e um exemplo será mostrado para melhor compreensão da solução criada.
+
 ## Thresholds
 Definem metas de desempenho; o teste falha se não forem atingidas. No código abaixo, as metas foram estabelecidas para os percentis de 90 e 95
 
@@ -239,6 +241,7 @@ export const options = {
 Valida condições nas respostas HTTP.Asserções booleanas que verificam condições específicas da resposta (status, corpo, headers) sem interromper a execução em caso de falha.
 No código abaixo verifica o status 200, caso o usuário consiga efetuar o login e armazena o token.
 
+### Exemplo de código
 ```javascript
 // filepath: test/k6/APIrecipes.test.js
 group('login', () => {
@@ -250,26 +253,154 @@ group('login', () => {
 });
 ```
 
-## Helpers
-## Trends
-## Faker
+## Helpers  
+Módulos ou funções utilitárias que encapsulam lógica repetitiva, mantendo o script principal limpo e modular. No código abaixo, a função createRecipes.js é usada para criação de receitas usando o endpoint e forncendo resultado ao APIrecipes.test.js o resultado para o check (se a receita foi criada ou não)
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/helpers/createRecipes.js
+export function createRecipe(baseUrl, token, recipe) {
+  const url = `${baseUrl}/api/recipes`;
+  const payload = JSON.stringify(recipe);
+  return http.post(url, payload, {
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  });
+}
+```
+## Trends  
+Métricas customizadas que permitem acompanhar a evolução de valores numéricos ao longo do tempo. No código abaixo 3 métricas foram setadas: Tempo de duração de registro, login e cadastro de receita.
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+import { Trend } from 'k6/metrics';
+export const loginTrend = new Trend('login_duration');
+export const registerTrend = new Trend('register_duration');
+export const createRecipeTrend = new Trend('create_recipe_duration');
+
+group('login', () => {
+  const res = login(baseUrl, { username, password });
+  loginTrend.add(res.timings.duration);
+});
+...
+    loginTrend.add(res.timings.duration);
+...
+```
+
+## Faker  
+Biblioteca (ou módulo externo) utilizada para gerar dados aleatórios e realistas para os testes, como nomes, e-mails e senhas. No código abaixo, é usado a Biblioteca faker para criar password e lastName. Em uma função separada, mas que também usa faker é gerado o nome de usuário unico.
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+import faker from 'k6/x/faker';
+const username = generateUniqueUsername();
+const password = faker.internet.password();
+const lastname = faker.person.lastName();
+```
+
 ## Variável de Ambiente
+Permitem parametrizar o teste (URL, ambiente, usuários) sem alterar o código-fonte, facilitando a execução em diferentes contextos. No K6, variáveis são acessadas via `__ENV`. No código abaixo foi definida a URL base da API como `BASE_URL`.
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/helpers/getBaseURL.js
+export function getBaseURL() {
+  // Usa BASE_URL se definida; caso contrário, fallback para localhost
+  return __ENV.BASE_URL || 'http://localhost:3000';
+}
+```
+
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+export default function () {
+  const baseUrl = getBaseURL(); // obtém BASE_URL de __ENV
+  // ...existing code...
+}
+```
+
 ## Stages
+Definem o perfil de carga do teste através de "degraus" de usuários virtuais. Controla ramp-up, pico e ramp-down de usuários virtuais. No código abaixo é mostrado alguns stages setado e o objetivo de teste de cada um.
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+export const options = {
+  stages: [
+    { duration: '3s', target: 5 },   // Ramp Up
+    { duration: '15s', target: 10 }, // Steady
+    { duration: '2s', target: 40 },  // Spike
+    { duration: '10s', target: 10 }, // Back to normal
+    { duration: '3s', target: 0 },   // Ramp Down
+  ],
+};
+```
+
+
 ## Reaproveitamento de Resposta
+Técnica de extrair dados da resposta de uma requisição para utilizá-los em requisições subsequentes dentro do mesmo VU (ex: token). No código abaixo é usado o token obtido ao logar o usuário e será salvo para ser usado mais tarde para criar a receita pelo usuário.
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+let token = '';
+group('login', () => {
+  const res = login(baseUrl, { username, password });
+  token = res.json('token'); // reutilizado no createRecipe
+});
+```
+
+
 ## Uso de Token de Autenticação
+Manipulação de headers para incluir tokens (JWT, Bearer) capturados no login em todas as requisições para rotas protegidas.
+No código abaixo, inclui o token no header Authorization para endpoints protegidos (criação de receita).
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/helpers/createRecipes.js
+return http.post(url, payload, {
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+});
+```
+
 ## Data-Driven Testing
+Técnica que utiliza fontes de dados externas (JSON, CSV) para alimentar o teste com múltiplos cenários e inputs reais. No código abaixo é usado para gerar a receita a ser cadastrada pelo usuário. De forma geral, o código checa se o dataset é válido e caso positivo ele usa o json criado, caso negativo, ele usa uma função de geração randômica. 
+
+### Exemplo de código
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+group('createRecipe-data-driven', () => {
+  const dataset = Array.isArray(recipesData) && recipesData.length > 0
+    ? recipesData
+    : [generateRandomRecipe()];
+
+  for (let i = 0; i < dataset.length; i++) {
+    const recipe = dataset[i];
+    const hasPreparo = typeof recipe.Preparo === 'string' || typeof recipe.preparo === 'string';
+    const isValid = recipe && typeof recipe.nome === 'string' && Array.isArray(recipe.ingredientes) && hasPreparo;
+
+    if (!isValid) { console.warn(`Skipping invalid recipe at index ${i}`); continue; }
+
+    const res = createRecipe(baseUrl, token, recipe);
+    check(res, { 'create recipe status is 201': (r) => r.status === 201 });
+    createRecipeTrend.add(res.timings.duration);
+  }
+});
+```
 
 ## Groups
-### Conceito
 Organização do script em partes, cada uma cobrindo o uso de um endpoint. Dessa forma permite segmentar as métricas e facilitar a leitura. 
 
 O código abaixo está armazenado no arquivo test/k6/APIrecipes.test.js e demontra o uso do conceito de Groups, onde foi separado cada passo do workflow.  Dentro dele faço uso de um Helper, uma função de login, que foi importada de um outro script javascript.
 
 ### Exemplo de código
-```
-group('login', () => {
-    const res = login(baseUrl, { username, password });
-    ...
+```javascript
+// filepath: test/k6/APIrecipes.test.js
+group('register', () => {
+  const res = register(baseUrl, { username, lastname, password });
+  check(res, { 'register status is 201': (r) => r.status === 201 });
+  registerTrend.add(res.timings.duration);
+});
 ```
 ---
 
